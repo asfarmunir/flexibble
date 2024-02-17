@@ -1,6 +1,6 @@
 export const NavLinks = [
   { href: "/", key: "Inspiration", text: "Inspiration" },
-  { href: "/project", key: "Find Projects", text: "Find Projects" },
+  { href: "/project/create", key: "Add Projects", text: "Add Projects" },
   { href: "/e", key: "Learn Development", text: "Learn Development" },
   { href: "/as", key: "Career Advancement", text: "Career Advancement" },
   { href: "/s", key: "Hire Developers", text: "Hire Developers" },
@@ -92,3 +92,12 @@ export const footerLinks = [
     ],
   },
 ];
+
+export const ProjectDefaultValues = {
+  title: "",
+  description: "",
+  githubUrl: "",
+  deploymentUrl: "",
+  images: [],
+  categoryId: "",
+};

@@ -71,7 +71,6 @@ module.exports = withUt({
         poppins: ["var(--font-poppins)"],
       },
       backgroundImage: {
-        "dotted-pattern": "url('/assets/images/dotted-pattern.png')",
         "hero-img": "url('/assets/images/hero.png')",
       },
       borderRadius: {
@@ -95,5 +94,5 @@ module.exports = withUt({
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar")],
 });

@@ -2,7 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button } from "../ui/button";
+import { Input } from "@/components/ui/input";
 import { RiMenu2Fill } from "react-icons/ri";
+import { IoSearch } from "react-icons/io5";
+
 import { Separator } from "../ui/separator";
 import {
   Sheet,
@@ -16,7 +19,7 @@ import Navlinks from "./Navlinks";
 
 const Navbar = () => {
   return (
-    <nav className="navbar flex  items-center justify-between">
+    <nav className="navbar flex  items-center justify-between gap-8">
       <div className="flex items-center justify-center gap-3">
         <div className="block  lg:hidden ">
           <Sheet>
@@ -60,13 +63,26 @@ const Navbar = () => {
           </Sheet>
         </div>
 
-        <Image src="/logo.svg" width={100} height={35} alt="Logo" />
+        <Image
+          src="/logo.svg"
+          width={100}
+          height={35}
+          alt="Logo"
+          className=" w-[80px] md:w-[100px] "
+        />
         <div className=" hidden lg:block mx-5">
           <Navlinks />
         </div>
       </div>
 
-      <div className="flex w-32 justify-end gap-3">
+      <div className="flex items-center justify-end gap-3">
+        <div className="flex items-center bg-gray-50 rounded-full px-3">
+          <IoSearch className="text-2xl text-slate-600" />
+          <Input
+            className=" text-sm  max-w-md border-0 bg-gray-50 outline-offset-0 placeholder:text-grey-500 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+            placeholder="search project.."
+          />
+        </div>
         <SignedIn>
           <UserButton afterSignOutUrl="/" />
         </SignedIn>

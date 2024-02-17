@@ -40,7 +40,7 @@ const Footer = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="hidden md:flex flex-col gap-2">
           <FooterColoumn
             title={footerLinks[1].title}
             links={footerLinks[1].links}
@@ -50,14 +50,14 @@ const Footer = () => {
             links={footerLinks[2].links}
           />
         </div>
-        <div>
+        <div className="hidden md:block">
           <FooterColoumn
             title={footerLinks[3].title}
             links={footerLinks[3].links}
           />
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="hidden md:flex  flex-col gap-3">
           <FooterColoumn
             title={footerLinks[5].title}
             links={footerLinks[5].links}
@@ -67,7 +67,7 @@ const Footer = () => {
             links={footerLinks[4].links}
           />
         </div>
-        <div>
+        <div className="hidden md:block">
           <FooterColoumn
             title={footerLinks[6].title}
             links={footerLinks[6].links}
