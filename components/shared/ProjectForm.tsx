@@ -26,15 +26,14 @@ import { projectFormSchema } from "@/lib/Validator";
 import * as z from "zod";
 import { ProjectDefaultValues, categoryFilters } from "@/lib/constants";
 import { Textarea } from "@/components/ui/textarea";
-import { FileUploader } from "./FileUploader";
-import { UploadDropzone, useUploadThing } from "@/lib/uploadthing";
+import { useUploadThing } from "@/lib/uploadthing";
 import { useRouter } from "next/navigation";
 import { IProject } from "@/lib/database/models/project.model";
 import { toast } from "react-hot-toast";
 import { Separator } from "../ui/separator";
 import Image from "next/image";
 //uploadthing
-import { useCallback, useState, Dispatch, SetStateAction } from "react";
+import { useCallback, useState } from "react";
 import { useDropzone } from "@uploadthing/react";
 import { generateClientDropzoneAccept } from "uploadthing/client";
 import { convertFileToUrl } from "@/lib/utils";

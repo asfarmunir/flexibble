@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import User from "../models/user.model";
 import { createProjectTypes, updateProjectTypes } from "@/types";
 import { connectToDatabase } from "../index";
-import { type } from "os";
 
 export const createProject = async ({
   authorId,
@@ -42,10 +41,10 @@ export const getProjectById = async (id: string) => {
   try {
     await connectToDatabase();
     const project = await Project.findById(id).populate("author");
+
     if (!project) throw new Error("Project not found");
     return JSON.parse(JSON.stringify(project));
   } catch (error) {
-    console.log(error);
     return error;
   }
 };

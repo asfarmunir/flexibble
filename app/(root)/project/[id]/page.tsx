@@ -18,15 +18,20 @@ import { auth } from "@clerk/nextjs";
 import { DeleteConfirmation } from "@/components/shared/DeleteConfirmation";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import Comments from "@/components/shared/Comments";
+import { getUserById } from "@/lib/database/actions/user.actions";
 
 const page = async ({ params: { id } }: { params: { id: string } }) => {
   const { sessionClaims } = auth();
   const userId: string = sessionClaims!.userId as string;
-
   const project = await getProjectById(id);
+  // console.log(project);
   if (!project) {
     redirect("/");
   }
+
+  const currentUser = await getUserById(userId);
+
   return (
     <>
       <div className=" min-h-screen wrapper flex flex-col gap-6 items-center  justify-start">
@@ -56,12 +61,14 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
                 <FaHeart className="text-gray-400 text-lg md:text-xl hover:text-red-500 cursor-pointer" />
                 <span className="text-gray-400 ">{project.rating?.length}</span>
               </div>
-              <div className="flex items-center justify-start gap-1">
-                <FaComments className="text-gray-400 text-lg md:text-xl hover:text-primary-500 cursor-pointer " />
-                <span className="text-gray-400">
-                  {project.comments?.length}
-                </span>
-              </div>
+              <Link href={"#comments"}>
+                <div className="flex items-center justify-start gap-1">
+                  <FaComments className="text-gray-400 text-lg md:text-xl hover:text-primary-500 cursor-pointer " />
+                  <span className="text-gray-400">
+                    {project.comments?.length}
+                  </span>
+                </div>
+              </Link>
             </div>
             {userId === project.author._id && (
               <DropdownMenu>
@@ -115,72 +122,8 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full wrapper">
-        <h2 className="text-2xl font-bold text-gray-800">Comments</h2>
-        {/* create new comment */}
-        <div className="flex items-center wrapper justify-start gap-4">
-          <Image
-            src={project.author.photo}
-            alt="user"
-            width={30}
-            height={30}
-            className="rounded-full"
-          />
-          <input
-            type="text"
-            placeholder="Add a comment"
-            className="w-full bg-slate-100 rounded-md px-4 py-2 text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
-          />
-        </div>
-        <div className="flex items-start wrapper justify-start gap-4">
-          <Image
-            src={project.author.photo}
-            alt="user"
-            width={30}
-            height={30}
-            className="rounded-full"
-          />
-          <div className="flex items-start justify-center flex-col">
-            <div className="">
-              <p className="capitalize text-slate-600 font-semibold mb-1">
-                {project.author.username} {project.author.lastName}
-                <span className="text-slate-500 font-normal ml-2 md:ml-4 text-xs">
-                  24th Aug
-                </span>
-              </p>
-              <p className="text-slate-500 text-xs md:text-sm ">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Tempora, voluptatibus sunt quod impedit ut temporibus alias
-                perspiciatis deleniti quidem eaque similique? Sapiente quibusdam
-                aliquam obcaecati rerum molestiae quod alias. Voluptate!
-              </p>
-            </div>
-
-            <div className="flex items-start py-4 md:wrapper justify-start gap-4">
-              {/* comment reply */}
-              <Image
-                src={project.author.photo}
-                alt="user"
-                width={25}
-                height={25}
-                className="rounded-full"
-              />
-              <div className="flex items-start justify-center flex-col">
-                <p className="capitalize text-slate-600 font-semibold mb-1">
-                  {project.author.username} {project.author.lastName}
-                  <span className="text-slate-500 font-normal ml-2 md:ml-4 text-xs">
-                    24th Aug
-                  </span>
-                </p>
-                <p className="text-slate-500 text-xs md:text-sm ">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Tempora, voluptatibus sunt quod impedit ut temporibus alias
-                  perspiciatis deleniti quidem eaque similique?
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div id="comments">
+        <Comments project={project} currentUser={currentUser} />
       </div>
     </>
   );

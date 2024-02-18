@@ -19,7 +19,14 @@ export interface IProject extends Document {
       _id: string;
       text: string;
       postId: string;
-      criticId: string;
+      createdAt: string;
+      criticId: {
+        _id: string;
+        username: string;
+        firstName?: string;
+        lastName?: string;
+        photo: string;
+      };
     }
   ];
   rating?: string[];
