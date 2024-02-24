@@ -70,13 +70,21 @@ export async function deleteUser(clerkId: string) {
       throw new Error("User not found");
     }
 
-    // Unlink relationships
-
     // Delete user
     const deletedUser = await User.findByIdAndDelete(userToDelete._id);
     revalidatePath("/");
 
     return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getAllUsers() {
+  try {
+    await connectToDatabase();
+    const users = await User.find();
+    return JSON.parse(JSON.stringify(users));
   } catch (error) {
     console.log(error);
   }

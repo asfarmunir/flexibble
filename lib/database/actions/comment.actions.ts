@@ -1,6 +1,6 @@
 "use server";
 
-import { Comment } from "../models/comment.model";
+import { Comment, Reply } from "../models/comment.model";
 import { connectToDatabase } from "../index";
 import projectModel from "../models/project.model";
 
@@ -33,7 +33,8 @@ export const getCommentsofProject = async (id: string) => {
     await connectToDatabase();
     const comments = await Comment.find({ postId: id })
       .sort({ createdAt: -1 }) // Sort by createdAt field in descending order
-      .populate("criticId");
+      .populate("criticId")
+      .populate("replies");
     return JSON.parse(JSON.stringify(comments));
   } catch (error) {
     console.log(error);
@@ -53,8 +54,57 @@ export const deleteComment = async (id: string) => {
         (commentId: string) => commentId.toString() !== id
       );
       await project.save();
+      const reply = await Reply.deleteMany({ commentId: id });
     }
     return JSON.parse(JSON.stringify(comment));
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+type createReplyTypes = {
+  text: string;
+  commentId: string;
+  criticId: {
+    username: string;
+    photo: string;
+  };
+  createdAt: Date;
+};
+
+export const createReply = async (reply: createReplyTypes) => {
+  try {
+    await connectToDatabase();
+    const newReply = await Reply.create(reply);
+    if (!newReply) throw new Error("Reply creation failed");
+
+    if (newReply) {
+      const comment = await Comment.findById(reply.commentId);
+      if (!comment) throw new Error("Comment not found hehe");
+      comment.replies.push(newReply);
+      await comment.save();
+    }
+    return JSON.parse(JSON.stringify(newReply));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteReply = async (id: string) => {
+  try {
+    await connectToDatabase();
+    const reply = await Reply.findByIdAndDelete(id);
+    if (!reply) throw new Error("Reply not found");
+    if (reply) {
+      const comment = await Comment.findById(reply.commentId);
+      if (!comment) throw new Error("Comment not found");
+      comment.replies = comment.replies.filter(
+        (replyId: string) => replyId.toString() !== id
+      );
+      await comment.save();
+    }
+    return JSON.parse(JSON.stringify(reply));
   } catch (error) {
     console.log(error);
     return error;

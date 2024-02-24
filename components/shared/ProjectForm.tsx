@@ -55,6 +55,8 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
     setFiles(acceptedFiles);
   }, []);
 
+  const [imageLength, setImageLength] = useState(false);
+
   const { startUpload, permittedFileInfo } = useUploadThing("imageUploader");
 
   const fileTypes = permittedFileInfo?.config
@@ -66,7 +68,6 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
     accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
   });
 
-  // console.log(project);
   const initialValues =
     project && type === "Update"
       ? {
@@ -93,7 +94,10 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
 
   async function onSubmit(values: z.infer<typeof projectFormSchema>) {
     let uploadedImagesUrl: string[] = [];
-    console.log(files);
+    if (files.length === 0 && type === "Add") {
+      setImageLength(true);
+      return;
+    }
     if (files.length > 0) {
       const uploadedImages = await startUpload(files);
       if (!uploadedImages) {
@@ -104,7 +108,6 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
       project!.images.map((img) => uploadedImagesUrl.push(img));
     }
 
-    console.log(uploadedImagesUrl);
     const projectData = {
       project: {
         ...values,
@@ -113,19 +116,24 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
       author: authorId,
       path: "/",
     };
-    console.log(projectData);
 
     if (type === "Add") {
       try {
-        const newEvent = await createProject({
-          authorId,
-          project: { ...values, images: uploadedImagesUrl },
-          path: "/profile",
-        });
-        if (newEvent) {
+        const newProject = await toast.promise(
+          createProject({
+            authorId,
+            project: { ...values, images: uploadedImagesUrl },
+            path: "/profile",
+          }),
+          {
+            loading: "Adding...",
+            success: "Project Added successfully!",
+            error: "Failed to add",
+          }
+        );
+        if (newProject) {
           form.reset();
-          router.push(`/project/${newEvent._id}`);
-          toast.success("Project Added successfully!");
+          router.push(`/project/${newProject._id}`);
         }
       } catch (error) {
         console.log(error);
@@ -137,15 +145,21 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
         return;
       }
       try {
-        const updatedProject = await updateProject({
-          projectId,
-          project: { ...values, images: uploadedImagesUrl },
-          path: `/project/${projectId}`,
-        });
+        const updatedProject = await toast.promise(
+          updateProject({
+            projectId,
+            project: { ...values, images: uploadedImagesUrl },
+            path: `/project/${projectId}`,
+          }),
+          {
+            loading: "Updating...",
+            success: "Project Updated successfully!",
+            error: "Failed to update",
+          }
+        );
         if (updatedProject) {
           form.reset();
           router.push(`/project/${updatedProject._id}`);
-          toast.success("Event Updated successfully!");
         }
       } catch (error) {
         console.log(error);
@@ -167,7 +181,7 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
               <FormItem className="w-full">
                 <FormControl>
                   <Input
-                    placeholder="Event title"
+                    placeholder="Project title"
                     {...field}
                     className="input-field"
                   />
@@ -225,90 +239,98 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
               </FormItem>
             )}
           />
-          <FormField
-            defaultValue="hehe"
-            control={form.control}
-            name="imageUrl"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl className="h-72">
-                  <div
-                    {...getRootProps()}
-                    className="flex-center bg-dark-3 flex h-72 cursor-pointer flex-col overflow-hidden rounded-xl bg-grey-50"
-                  >
-                    <input {...getInputProps()} />
-                    <div className="flex items-center justify-center gap-4 flex-wrap bg-contain object-contain px-4">
-                      {files.length > 0 &&
-                        files.length < 5 &&
-                        uploadedImageUrl.map((url, index) => (
-                          <Image
-                            key={index}
-                            src={url}
-                            width={120}
-                            height={80}
-                            alt="uploaded image"
-                            className="rounded-lg bg-contain max-h-[80px] object-contain object-center"
-                          />
-                        ))}
-                    </div>
-                    {files.length > 0 && files.length >= 5 && (
-                      <p className=" font-semibold text-red-600">
-                        Max 4 images allowed
-                      </p>
-                    )}
-                    {files.length > 0 ? (
-                      <Button
-                        type="button"
-                        size={"sm"}
-                        className="rounded-lg mt-6 "
-                      >
-                        upload again
-                      </Button>
-                    ) : (
-                      <div className="flex-center flex-col py-5 text-grey-500">
-                        {type === "Update" ? (
-                          <div className="flex items-center justify-center gap-2 mb-4">
-                            {project!.images.map((img, index) => (
-                              <Image
-                                key={index}
-                                src={img}
-                                width={120}
-                                height={80}
-                                alt="uploaded image"
-                                className="rounded-lg bg-contain max-h-[80px] object-contain object-center"
-                              />
-                            ))}
-                          </div>
-                        ) : (
-                          <div>
-                            <img
-                              src="/uploads.svg"
-                              width={77}
-                              height={77}
-                              alt="file upload"
+          <div className="w-full flex flex-col justify-start">
+            <FormField
+              defaultValue="hehe"
+              control={form.control}
+              name="imageUrl"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormControl className="h-72">
+                    <div
+                      {...getRootProps()}
+                      className="flex-center bg-dark-3 flex h-72 cursor-pointer flex-col overflow-hidden rounded-xl bg-grey-50"
+                    >
+                      <input {...getInputProps()} />
+                      <div className="flex items-center justify-center gap-4 flex-wrap bg-contain object-contain px-4">
+                        {files.length > 0 &&
+                          files.length < 5 &&
+                          uploadedImageUrl.map((url, index) => (
+                            <Image
+                              key={index}
+                              src={url}
+                              width={120}
+                              height={80}
+                              alt="uploaded image"
+                              className="rounded-lg bg-contain max-h-[80px] object-contain object-center"
                             />
-                            <h3 className="mb-2 mt-2">Drag photo here</h3>
-                            <p className="p-medium-12 mb-4">SVG, PNG, JPG</p>
-                          </div>
-                        )}
-
-                        <Button type="button" className="rounded-full">
-                          {type === "Update"
-                            ? "Update Images"
-                            : " Select from computer"}
-                        </Button>
+                          ))}
                       </div>
-                    )}
-                  </div>
-                </FormControl>
-              </FormItem>
+                      {files.length > 0 && files.length >= 5 && (
+                        <p className=" font-semibold text-red-600">
+                          Max 4 images allowed
+                        </p>
+                      )}
+                      {files.length > 0 ? (
+                        <Button
+                          type="button"
+                          size={"sm"}
+                          className="rounded-lg mt-6 "
+                        >
+                          upload again
+                        </Button>
+                      ) : (
+                        <div className="flex-center flex-col py-5 text-grey-500">
+                          {type === "Update" ? (
+                            <div className="flex items-center justify-center gap-2 mb-4">
+                              {project!.images.map((img, index) => (
+                                <Image
+                                  key={index}
+                                  src={img}
+                                  width={120}
+                                  height={80}
+                                  alt="uploaded image"
+                                  className="rounded-lg bg-contain max-h-[80px] object-contain object-center"
+                                />
+                              ))}
+                            </div>
+                          ) : (
+                            <div>
+                              <img
+                                src="/uploads.svg"
+                                width={77}
+                                height={77}
+                                alt="file upload"
+                              />
+                              <h3 className="mb-2 mt-2">Drag photo here</h3>
+                              <p className="p-medium-12 mb-4">SVG, PNG, JPG</p>
+                            </div>
+                          )}
+
+                          <Button type="button" className="rounded-full">
+                            {type === "Update"
+                              ? "Update Images"
+                              : " Select from computer"}
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            {imageLength && (
+              <p className="text-red-400 mt-2 font-semibold text-sm">
+                Please add 1 image atleast
+              </p>
             )}
-          />
+          </div>
         </div>
 
         <div className="flex flex-col gap-5 md:flex-row">
           <FormField
             control={form.control}
+            defaultValue=""
             name="githubUrl"
             render={({ field }) => (
               <FormItem className="w-full">
@@ -316,7 +338,7 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
                   <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
                     <FaGithub className="text-xl" />
                     <Input
-                      placeholder="Github URL"
+                      placeholder="Github URL (optional)"
                       {...field}
                       className="input-field"
                     />
@@ -328,6 +350,7 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
           />
           <FormField
             control={form.control}
+            defaultValue=""
             name="deploymentUrl"
             render={({ field }) => (
               <FormItem className="w-full">
@@ -336,7 +359,7 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
                     <IoMdCloudUpload className="text-2xl" />
 
                     <Input
-                      placeholder="Deployment URL"
+                      placeholder="Deployment URL (optional)"
                       {...field}
                       className="input-field"
                     />

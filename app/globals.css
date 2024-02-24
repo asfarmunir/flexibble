@@ -95,7 +95,7 @@ body {
   }
 
   .footer {
-    @apply flex-col  paddings w-full gap-20 bg-white;
+    @apply flex-col mt-6  paddings w-full gap-20 bg-white;
   }
 
   .footer_copyright {

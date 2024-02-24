@@ -2,10 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Button } from "../ui/button";
-import { Input } from "@/components/ui/input";
 import { RiMenu2Fill } from "react-icons/ri";
-import { IoSearch } from "react-icons/io5";
-
 import { Separator } from "../ui/separator";
 import {
   Sheet,
@@ -16,8 +13,12 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import Navlinks from "./Navlinks";
+import { auth } from "@clerk/nextjs";
+import Search from "./Search";
 
 const Navbar = () => {
+  const { sessionClaims } = auth();
+  const loggedUserId: string | undefined = sessionClaims?.userId as string;
   return (
     <nav className="navbar flex  items-center justify-between gap-8">
       <div className="flex items-center justify-center gap-3">
@@ -43,7 +44,7 @@ const Navbar = () => {
                 <Separator />
 
                 <div className=" pt-6">
-                  <Navlinks />
+                  <Navlinks loggedUserId={loggedUserId} />
                 </div>
               </SheetHeader>
               <SheetDescription className="">
@@ -71,18 +72,13 @@ const Navbar = () => {
           className=" w-[80px] md:w-[100px] "
         />
         <div className=" hidden lg:block mx-5">
-          <Navlinks />
+          <Navlinks loggedUserId={loggedUserId} />
         </div>
       </div>
 
       <div className="flex items-center justify-end gap-3">
-        <div className="flex items-center bg-gray-50 rounded-full px-3">
-          <IoSearch className="text-2xl text-slate-600" />
-          <Input
-            className=" text-sm  max-w-md border-0 bg-gray-50 outline-offset-0 placeholder:text-grey-500 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-            placeholder="search project.."
-          />
-        </div>
+        {/* // This is the search component */}
+        <Search />
         <SignedIn>
           <UserButton afterSignOutUrl="/" />
         </SignedIn>

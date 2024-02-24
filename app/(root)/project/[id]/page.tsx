@@ -20,12 +20,15 @@ import { redirect } from "next/navigation";
 import Image from "next/image";
 import Comments from "@/components/shared/Comments";
 import { getUserById } from "@/lib/database/actions/user.actions";
+import CreateRatings from "@/components/shared/CreateRatings";
+import { IProject } from "@/lib/database/models/project.model";
+import { getCommentsofProject } from "@/lib/database/actions/comment.actions";
 
 const page = async ({ params: { id } }: { params: { id: string } }) => {
   const { sessionClaims } = auth();
   const userId: string = sessionClaims!.userId as string;
-  const project = await getProjectById(id);
-  // console.log(project);
+  const project: IProject = await getProjectById(id);
+  const comments = await getCommentsofProject(project._id);
   if (!project) {
     redirect("/");
   }
@@ -38,7 +41,7 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
         <div className="flex items-center justify-between w-[100%] md:w-[90%]">
           <div>
             <div className="flex gap-2 items-center justify-center">
-              <h1 className="text-2xl md:text-4xl font-bold text-gray-800">
+              <h1 className="text-2xl md:text-4xl capitalize font-bold text-gray-800">
                 {project.title}
               </h1>
               <p className="bg-slate-100 text-slate-600 rounded-md text-xs md:text-lg  px-4 capitalize">
@@ -57,10 +60,11 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
 
           <div className="mx-4 flex item-center justify-center gap-3">
             <div className="md:flex items-center justify-end gap-4 hidden">
-              <div className="flex items-center justify-start gap-1">
-                <FaHeart className="text-gray-400 text-lg md:text-xl hover:text-red-500 cursor-pointer" />
-                <span className="text-gray-400 ">{project.rating?.length}</span>
-              </div>
+              <CreateRatings
+                projectId={project._id}
+                criticId={userId}
+                projectAuthorId={project.author._id}
+              />
               <Link href={"#comments"}>
                 <div className="flex items-center justify-start gap-1">
                   <FaComments className="text-gray-400 text-lg md:text-xl hover:text-primary-500 cursor-pointer " />
@@ -102,28 +106,38 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
               <p className="flex text-nowrap gap-1 items-center">
                 <FaGithub className=" text-lg font-semibold" /> Github:
               </p>
-              <Link href={project.githubUrl}>
-                <p className=" max-w-[300px] text-sm bg-slate-100 rounded-full px-4 py-2 text-nowrap  line-clamp-1">
-                  {project.githubUrl}
-                </p>
-              </Link>
+              {project.githubUrl === "" && <p>No github link provided</p>}
+              {project.githubUrl && (
+                <Link href={project.githubUrl}>
+                  <p className=" max-w-[300px] text-sm bg-slate-100 rounded-full px-4 py-2 text-nowrap  line-clamp-1">
+                    {project.githubUrl}
+                  </p>
+                </Link>
+              )}
             </div>
             <div className="flex flex-col md:flex-row justify-center md:justify-start w-full items-center gap-2">
               <p className="flex text-nowrap gap-1 items-center">
                 <IoMdCloudUpload className=" text-xl font-semibold" />{" "}
                 Deployment:
               </p>
-              <Link href={project.githubUrl}>
-                <p className=" max-w-[300px] text-sm bg-slate-100 rounded-full px-4 py-2 text-nowrap  line-clamp-1">
-                  {project.deploymentUrl}
-                </p>
-              </Link>
+              {project.deploymentUrl === "" && <p>Deployment Coming Soon</p>}
+              {project.deploymentUrl && (
+                <Link href={project.deploymentUrl}>
+                  <p className=" max-w-[300px] text-sm bg-slate-100 rounded-full px-4 py-2 text-nowrap  line-clamp-1">
+                    {project.deploymentUrl}
+                  </p>
+                </Link>
+              )}
             </div>
           </div>
         </div>
       </div>
       <div id="comments">
-        <Comments project={project} currentUser={currentUser} />
+        <Comments
+          project={project}
+          currentUser={currentUser}
+          preRenderedComments={comments}
+        />
       </div>
     </>
   );

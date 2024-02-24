@@ -5,7 +5,6 @@ import { auth } from "@clerk/nextjs";
 const page = () => {
   const { sessionClaims } = auth();
   const id: string = sessionClaims!.userId as string;
-  console.log(id);
   return (
     <>
       <section className="bg-primary-50 px-8 bg-dotted-pattern bg-cover bg-center py-5 md:py-10">

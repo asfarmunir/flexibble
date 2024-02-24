@@ -24,12 +24,12 @@ const FooterColoumn = ({ title, links }: footerTypes) => {
 
 const Footer = () => {
   return (
-    <footer className="footer">
+    <footer className="footer border-t border-slate-200">
       <div className="flex gap-3 mb-6 flex-col">
         <Image src="/logo-purple.svg" width={90} height={50} alt="Logo" />
-        <p className="text-sm font-thin text-slate-800 max-w-sm ">
-          Great place to showcase you skills and projects and get hired. Made by
-          developers for developers.
+        <p className="text-sm font-thin text-slate-600 max-w-sm ">
+          Great place to showcase your skills and projects and get hired. Made
+          by developers for developers.
         </p>
       </div>
       <div className=" flex items-start mb-4 justify-start gap-14 flex-wrap">

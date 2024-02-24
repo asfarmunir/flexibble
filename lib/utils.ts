@@ -1,6 +1,16 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import qs from "query-string";
+export type UrlQueryParams = {
+  params: string;
+  key: string;
+  value: string | null;
+};
+
+export type RemoveUrlQueryParams = {
+  params: string;
+  keysToRemove: string[];
+};
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -21,17 +31,6 @@ export function formUrlQuery({ params, key, value }: UrlQueryParams) {
     { skipNull: true }
   );
 }
-
-export type UrlQueryParams = {
-  params: string;
-  key: string;
-  value: string | null;
-};
-
-export type RemoveUrlQueryParams = {
-  params: string;
-  keysToRemove: string[];
-};
 
 export type SearchParamProps = {
   params: { id: string };

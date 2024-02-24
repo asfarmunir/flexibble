@@ -4,7 +4,10 @@ export interface IReply extends Document {
   _id: string;
   text: string;
   commentId: string;
-  criticId: string;
+  criticId: {
+    username: string;
+    photo: string;
+  };
   createdAt: Date;
 }
 
@@ -19,9 +22,14 @@ const replySchema = new Schema({
     required: true,
   },
   criticId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+    username: {
+      type: String,
+      required: true,
+    },
+    photo: {
+      type: String,
+      required: true,
+    },
   },
   createdAt: { type: Date, default: Date.now },
 });
@@ -39,7 +47,18 @@ export interface IComment extends Document {
     lastName?: string;
     photo: string;
   };
-  replies: string[]; // Array of replies
+  replies: [
+    {
+      _id: string;
+      text: string;
+      commentId: string;
+      criticId: {
+        username: string;
+        photo: string;
+      };
+      createdAt: string;
+    }
+  ]; // Array of replies
   createdAt: string;
 }
 

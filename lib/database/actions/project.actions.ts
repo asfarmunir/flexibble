@@ -1,6 +1,6 @@
 "use server";
 
-import Project, { IProject } from "../models/project.model";
+import Project from "../models/project.model";
 import { revalidatePath } from "next/cache";
 import User from "../models/user.model";
 import { createProjectTypes, updateProjectTypes } from "@/types";
@@ -26,16 +26,41 @@ export const createProject = async ({
   }
 };
 
-export const getProjects = async () => {
+type getAllProjectsTypes = {
+  query: string;
+  limit: number;
+  page: number;
+};
+
+export async function getAllProjects({
+  query,
+  limit = 2,
+  page,
+}: getAllProjectsTypes): Promise<{ data: any[]; totalPages: number }> {
   try {
     await connectToDatabase();
-    const projects = await Project.find().populate("author");
-    return JSON.parse(JSON.stringify(projects));
+    const titleCondition = query
+      ? { title: { $regex: query, $options: "i" } }
+      : {};
+    const skipAmount = (Number(page) - 1) * limit;
+
+    const projects = await Project.find(titleCondition)
+      .skip(skipAmount)
+      .limit(limit)
+      .populate("author");
+
+    // const projects = await projectQuery.exec();
+    const projectCount = await Project.countDocuments(titleCondition);
+    // .sort({ createdAt: "desc" })
+    return {
+      data: JSON.parse(JSON.stringify(projects)),
+      totalPages: Math.ceil(projectCount / limit),
+    };
   } catch (error) {
     console.log(error);
-    return error;
+    throw error; // Rethrow the error to propagate it
   }
-};
+}
 
 export const getProjectById = async (id: string) => {
   try {
@@ -80,6 +105,19 @@ export const removeProject = async ({
     await connectToDatabase();
     const project = await Project.findByIdAndDelete(projectId);
     if (project) revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export const getProjectsByAuthor = async (authorId: string) => {
+  try {
+    await connectToDatabase();
+    const projects = await Project.find({ author: authorId }).populate(
+      "author"
+    );
+    return JSON.parse(JSON.stringify(projects));
   } catch (error) {
     console.log(error);
     return error;

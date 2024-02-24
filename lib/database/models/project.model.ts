@@ -29,7 +29,13 @@ export interface IProject extends Document {
       };
     }
   ];
-  rating?: string[];
+  rating?: [
+    {
+      _id: string;
+      projectId: string;
+      criticId: string;
+    }
+  ];
 }
 const projectSchema = new Schema({
   title: {
@@ -69,7 +75,7 @@ const projectSchema = new Schema({
   rating: [
     {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Rating",
     },
   ],
 });

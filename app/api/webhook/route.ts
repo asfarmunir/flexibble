@@ -60,7 +60,6 @@ export async function POST(req: Request) {
   const eventType = evt.type;
 
   if (eventType === "user.created") {
-    console.log("User created event received");
     const { id, email_addresses, image_url, first_name, last_name, username } =
       evt.data;
 
@@ -72,7 +71,6 @@ export async function POST(req: Request) {
       lastName: last_name,
       photo: image_url,
     };
-    console.log("User data", user);
     const newUser = await createUser(user);
 
     if (newUser) {
@@ -81,7 +79,6 @@ export async function POST(req: Request) {
           userId: newUser._id,
         },
       });
-      console.log("User metadata updated");
     }
 
     return NextResponse.json({ message: "OK", user: newUser });
@@ -102,13 +99,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "OK", user: updatedUser });
   }
 
-  if (eventType === "user.deleted") {
-    const { id } = evt.data;
+  // if (eventType === "user.deleted") {
+  //   const { id } = evt.data;
 
-    const deletedUser = await deleteUser(id!);
+  //   const deletedUser = await deleteUser(id!);
 
-    return NextResponse.json({ message: "OK", user: deletedUser });
-  }
+  //   return NextResponse.json({ message: "OK", user: deletedUser });
+  // }
 
   return new Response("", { status: 200 });
 }
