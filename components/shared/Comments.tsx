@@ -42,14 +42,11 @@ const Comments = ({
   const [postComments, setPostComments] = useState(preRenderedComments);
   const [commentValidate, setCommentValidate] = useState(false);
   const [replyValidate, setReplyValidate] = useState(false);
-  const [loading, setloading] = useState(true);
+  const [loading, setloading] = useState(false);
   useEffect(() => {
     const getCommentsOfPost = async () => {
-      setloading(true);
       const comments = await getCommentsofProject(project._id);
-      console.log("useEffect comments", comments);
       comments && setPostComments(comments);
-      setloading(false);
     };
     getCommentsOfPost();
   }, [comment, isPending, replyValues]);
@@ -83,6 +80,7 @@ const Comments = ({
     if (type === "reply") {
       const replyValue = replyValues[commentId];
       if (!replyValue || replyValue.trim().length === 0) {
+        setReplyValidate(true);
         setReplyValues((prevState) => ({
           ...prevState,
           [commentId]: replyValue,
@@ -364,10 +362,7 @@ const Comments = ({
         })
       ) : (
         <p className="text-gray-500 text-sm mt-4 self-center">
-          {
-            /* @ts-ignore */
-            loading ? "Loading comments..." : "No comments yet"
-          }
+          {loading ? "Loading comments..." : "No comments yet"}
         </p>
       )}
     </div>

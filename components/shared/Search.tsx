@@ -45,7 +45,7 @@ const Search = ({
         <div className="hidden md:flex items-center bg-gray-50 rounded-full px-3">
           <IoSearch className="text-2xl text-slate-600" />
           <Input
-            className=" text-sm  max-w-md border-0 bg-gray-50 outline-offset-0 placeholder:text-grey-500 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+            className=" text-sm md:w-[140px]  xl:w-[200px] border-0 bg-gray-50 outline-offset-0 placeholder:text-grey-500 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
             placeholder={placeholder}
             onChange={(e) => setQuery(e.target.value)}
           />

@@ -18,6 +18,7 @@ export const createProject = async ({
     const newProject = await Project.create({
       ...project,
       author: authorId,
+      createdAt: new Date(),
     });
     revalidatePath(path);
     return JSON.parse(JSON.stringify(newProject));
@@ -30,12 +31,14 @@ type getAllProjectsTypes = {
   query: string;
   limit: number;
   page: number;
+  category: string;
 };
 
 export async function getAllProjects({
   query,
-  limit = 2,
+  limit = 9,
   page,
+  category,
 }: getAllProjectsTypes): Promise<{ data: any[]; totalPages: number }> {
   try {
     await connectToDatabase();
@@ -44,10 +47,15 @@ export async function getAllProjects({
       : {};
     const skipAmount = (Number(page) - 1) * limit;
 
-    const projects = await Project.find(titleCondition)
+    const conditions = {
+      $and: [titleCondition, category ? { category: { $eq: category } } : {}],
+    };
+
+    const projects = await Project.find(conditions)
       .skip(skipAmount)
       .limit(limit)
       .populate("author");
+    // .sort({ rating: "desc" });
 
     // const projects = await projectQuery.exec();
     const projectCount = await Project.countDocuments(titleCondition);
@@ -57,7 +65,6 @@ export async function getAllProjects({
       totalPages: Math.ceil(projectCount / limit),
     };
   } catch (error) {
-    console.log(error);
     throw error; // Rethrow the error to propagate it
   }
 }

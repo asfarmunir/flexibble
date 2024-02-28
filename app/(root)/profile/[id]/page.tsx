@@ -5,8 +5,6 @@ import { getProjectsByAuthor } from "@/lib/database/actions/project.actions";
 import UserProfileMarkup from "@/components/shared/UserProfileMarkup";
 
 const page = async ({ params: { id } }: { params: { id: string } }) => {
-  const { sessionClaims } = auth();
-  const loggedUserId: string = sessionClaims!.userId as string;
   let userData;
   let userProjects;
 

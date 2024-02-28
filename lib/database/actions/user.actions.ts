@@ -89,3 +89,17 @@ export async function getAllUsers() {
     console.log(error);
   }
 }
+
+export const addUserPosition = async (_id: string, position: string) => {
+  try {
+    await connectToDatabase();
+    const user = await User.findOneAndUpdate(
+      { _id },
+      { position },
+      { new: true }
+    );
+    return JSON.parse(JSON.stringify(user));
+  } catch (error) {
+    console.log(error);
+  }
+};

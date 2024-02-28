@@ -4,31 +4,56 @@ import Collection from "./Collection";
 import { MdEmail } from "react-icons/md";
 import { SiVisualstudiocode } from "react-icons/si";
 import { FaStar } from "react-icons/fa";
-
+import { IUser } from "@/lib/database/models/user.model";
+import UserPosition from "./UserPosition";
+import { auth } from "@clerk/nextjs";
 const UserProfileMarkup = ({
   userData,
   userProjects,
 }: {
-  userData: any;
+  userData: IUser;
   userProjects: any;
 }) => {
+  const { sessionClaims } = auth();
+  const loggedUserId: string = sessionClaims!.userId as string;
+
   let likes: number = 0;
   userProjects.map((project: any) => {
     likes += project.rating.length;
   });
   return (
     <div className=" wrapper flex flex-col justify-start items-start">
-      <div className="flex text-center md:text-start flex-col md:flex-row items-center justify-start gap-8 wrapper border border-slate-100 bg-slate-50 rounded-2xl bg-gradient-to-b from-blue-200 to-sky-100 bg-dotted">
+      <div className="flex  md:text-start flex-col md:flex-row items-center justify-start gap-4 md:gap-8 wrapper border border-slate-100 bg-slate-50 rounded-2xl bg-gradient-to-b from-blue-200 to-sky-100 bg-dotted">
         <Image
           src={userData.photo}
           width={150}
           height={150}
           alt={"profile picture of " + userData.username}
           className="rounded-full "
+          priority
         />
-        <div className="flex flex-col md:flex-row justify-between items-center w-full gap-8 md:gap-2 ">
-          <div className="flex flex-col items-start">
-            <h4 className="h5-bold capitalize mt-2">{userData.username}</h4>
+        <div className="flex flex-col md:flex-row justify-center md:justify-between text-center items-center w-full gap-8 md:gap-2 ">
+          <div className="flex  flex-col items-center md:items-start">
+            {userData._id === loggedUserId ? (
+              <div className=" flex mb-1 items-center md:gap-4 justify-center flex-col-reverse md:flex-row">
+                <h4 className="h5-bold capitalize mt-2">{userData.username}</h4>
+                {userData.position ? (
+                  <p className=" mt-2 text-sm font-semibold text-primary-500 capitalize">
+                    {userData.position}
+                  </p>
+                ) : (
+                  <UserPosition userId={userData._id} />
+                )}
+              </div>
+            ) : (
+              <div className=" flex mb-1 items-center md:gap-4 justify-center flex-col-reverse md:flex-row">
+                <h4 className="h5-bold capitalize mt-2">{userData.username}</h4>
+                <p className=" mt-2 text-sm font-semibold text-primary-500 capitalize">
+                  {userData.position}
+                </p>
+              </div>
+            )}
+
             <p className="p-regular-14 capitalize text-slate-600">
               {userData.firstName} {userData.lastName}
             </p>

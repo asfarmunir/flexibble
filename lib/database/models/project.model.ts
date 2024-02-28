@@ -36,48 +36,59 @@ export interface IProject extends Document {
       criticId: string;
     }
   ];
+  createdAt: Date;
+  updatedAt: Date;
 }
-const projectSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-  },
-  githubUrl: {
-    type: String,
-  },
-  deploymentUrl: {
-    type: String,
-  },
-  images: [
-    {
+const projectSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    githubUrl: {
       type: String,
     },
-  ],
-  comments: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Comment",
+    deploymentUrl: {
+      type: String,
     },
-  ],
-  rating: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Rating",
+    images: [
+      {
+        type: String,
+      },
+    ],
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
+    rating: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Rating",
+      },
+    ],
+    createdAt: {
+      type: Date,
+      default: Date.now,
     },
-  ],
-});
+  },
+  {
+    timestamps: true,
+  }
+);
 
 export default models.Project || model("Project", projectSchema);

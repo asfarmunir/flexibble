@@ -122,7 +122,10 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
         const newProject = await toast.promise(
           createProject({
             authorId,
-            project: { ...values, images: uploadedImagesUrl },
+            project: {
+              ...values,
+              images: uploadedImagesUrl,
+            },
             path: "/profile",
           }),
           {
