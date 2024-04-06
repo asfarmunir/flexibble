@@ -117,6 +117,8 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
       path: "/",
     };
 
+    
+
     if (type === "Add") {
       try {
         const newProject = await toast.promise(
