@@ -51,23 +51,27 @@ export async function getAllProjects({
       $and: [titleCondition, category ? { category: { $eq: category } } : {}],
     };
 
-    const projects = await Project.find(conditions)
+    // Condition to filter projects with non-empty ratings arrays
+    // const ratingLengthCondition = { rating: { $exists: true, $not: { $size: 0 } } };
+
+    const projects = await Project.find({ ...conditions })
+      // .sort({ "rating": 1 }) // Sort by the length of the ratings array in descending order
       .skip(skipAmount)
       .limit(limit)
-      .populate("author");
-    // .sort({ rating: "desc" });
+      .populate("author")
+      // .sort({"__v":-1});
 
-    // const projects = await projectQuery.exec();
-    const projectCount = await Project.countDocuments(titleCondition);
-    // .sort({ createdAt: "desc" })
+    const projectCount = await Project.countDocuments({ ...titleCondition });
+
     return {
       data: JSON.parse(JSON.stringify(projects)),
       totalPages: Math.ceil(projectCount / limit),
     };
   } catch (error) {
-    throw error; // Rethrow the error to propagate it
+    throw error;
   }
 }
+
 
 export const getProjectById = async (id: string) => {
   try {
@@ -130,3 +134,16 @@ export const getProjectsByAuthor = async (authorId: string) => {
     return error;
   }
 };
+
+
+export const getProjectsCount = async () => {
+  try {
+    await connectToDatabase();
+     const projectCount = await Project.countDocuments();
+    return JSON.parse(JSON.stringify(projectCount));
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+}

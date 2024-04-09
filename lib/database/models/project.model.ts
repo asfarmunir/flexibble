@@ -9,6 +9,7 @@ export interface IProject extends Document {
     firstName?: string;
     lastName?: string;
     photo: string;
+    position: string;
   };
   category: string;
   githubUrl?: string;
@@ -38,6 +39,7 @@ export interface IProject extends Document {
   ];
   createdAt: Date;
   updatedAt: Date;
+  likes: string,
 }
 const projectSchema = new Schema(
   {
@@ -81,6 +83,10 @@ const projectSchema = new Schema(
         ref: "Rating",
       },
     ],
+    likes: {
+      type: String,
+      default:0,
+    },
     createdAt: {
       type: Date,
       default: Date.now,

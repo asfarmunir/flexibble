@@ -42,7 +42,8 @@ export function removeKeysFromQuery({
   keysToRemove,
 }: RemoveUrlQueryParams) {
   const currentUrl = qs.parse(params);
-
+  console.log('currentUrl',currentUrl);
+  
   keysToRemove.forEach((key) => {
     delete currentUrl[key];
   });

@@ -254,12 +254,20 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
                   <FormControl className="h-72">
                     <div
                       {...getRootProps()}
-                      className="flex-center bg-dark-3 flex h-72 cursor-pointer flex-col overflow-hidden rounded-xl bg-grey-50"
+                      className="flex-center bg-dark-3 flex h-fit md:h-72 cursor-pointer flex-col  rounded-xl bg-grey-50"
                     >
                       <input {...getInputProps()} />
-                      <div className="flex items-center justify-center gap-4 flex-wrap bg-contain object-contain px-4">
+                      {/* <div className="flex items-center justify-center gap-4 flex-wrap bg-contain object-contain px-4"> */}
+                      
                         {files.length > 0 &&
-                          files.length < 5 &&
+                        files.length < 5 &&
+                          <>
+                          <p className="mb-2 text-sm capitalize text-slate-600">
+                              {files.length} images uploaded
+                          </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4  bg-contain object-contain px-4 place-items-center w-full bg-slate-50 py-3 ">
+                       
+                        {
                           uploadedImageUrl.map((url, index) => (
                             <Image
                               key={index}
@@ -267,10 +275,13 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
                               width={120}
                               height={80}
                               alt="uploaded image"
-                              className="rounded-lg bg-contain max-h-[80px] object-contain object-center"
+                              className="rounded bg-contain shadow max-h-[80px] object-contain object-center"
                             />
                           ))}
-                      </div>
+                        </div>
+                        </>
+                        }
+
                       {files.length > 0 && files.length >= 5 && (
                         <p className=" font-semibold text-red-600">
                           Max 4 images allowed
@@ -286,22 +297,28 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
                         </Button>
                       ) : (
                         <div className="flex-center flex-col py-5 text-grey-500">
-                          {type === "Update" ? (
-                            <div className="flex items-center justify-center gap-2 mb-4">
+                            {type === "Update" ? (
+                              <>
+                                  <p className="mb-2 text-sm capitalize text-slate-600">
+                              Uploaded Images
+                          </p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4  bg-contain object-contain px-4 mb-3 place-items-center w-full bg-slate-50 py-3 ">
                               {project!.images.map((img, index) => (
                                 <Image
                                   key={index}
                                   src={img}
-                                  width={120}
-                                  height={80}
+                                  width={130}
+                                  height={90}
                                   alt="uploaded image"
-                                  className="rounded-lg bg-contain max-h-[80px] object-contain object-center"
+                                  className="rounded shadow bg-contain max-h-[90px] object-contain object-center"
                                 />
                               ))}
                             </div>
+                            </>
+                          
                           ) : (
                             <div>
-                              <img
+                              <Image
                                 src="/uploads.svg"
                                 width={77}
                                 height={77}

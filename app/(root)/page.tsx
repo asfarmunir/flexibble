@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import CategoryFilters from "@/components/shared/CategoryFilters";
 import { FaCaretRight } from "react-icons/fa";
+import RemoveQuery from "@/components/shared/RemoveQuery";
+
 
 type SearchParamProps = {
   params: { id: string };
@@ -51,6 +53,7 @@ const page = async ({ searchParams }: SearchParamProps) => {
         <div className="flex items-start md:items-center justify-between w-full">
           <div className="flex flex-col  md:flex-row items-start md:items-center justify-center md:gap-4">
             <h3 className="h3-bold">Projects</h3>
+
             <div className="flex items-center justify-center gap-2">
               {category && (
                 <p className="text-xs md:text-sm font-semibold text-primary mt-1 flex items-center">
@@ -58,6 +61,14 @@ const page = async ({ searchParams }: SearchParamProps) => {
                   {category}
                 </p>
               )}
+              {
+                searchText !== "" && (
+                  <RemoveQuery searchText={searchText} />
+                )
+                
+              }
+             
+               
             </div>
           </div>
           <DropdownMenu>

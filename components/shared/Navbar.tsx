@@ -17,6 +17,7 @@ import { auth } from "@clerk/nextjs";
 import Search from "./Search";
 
 const Navbar = () => {
+  
   const { sessionClaims } = auth();
   const loggedUserId: string | undefined = sessionClaims?.userId as string;
   return (

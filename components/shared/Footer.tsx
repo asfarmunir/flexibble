@@ -22,7 +22,7 @@ const FooterColoumn = ({ title, links }: footerTypes) => {
   );
 };
 
-const Footer = () => {
+const Footer = ({count}:{count:number}) => {
   return (
     <footer className="footer border-t border-slate-200">
       <div className="flex gap-3 mb-6 flex-col">
@@ -76,13 +76,13 @@ const Footer = () => {
       </div>
       <div className="flex flex-col-reverse gap-2 md:flex-row md:justify-between items-center justify-center text-slate-500  mt-5">
         <p className="text-xs font-semibold text-primary-100">
-          @2024 Asfar Munir Asfi.{" "}
+          © 2024 Asfar Munir Asfi.{" "}
           <span className="font-normal text-slate-500">
             All Rights Reserved
           </span>
         </p>
         <p className="text-xs">
-          <b>1937 </b>Projects Submitted
+          <b className="mr-1">{count} </b>Projects Submitted
         </p>
       </div>
     </footer>

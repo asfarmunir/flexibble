@@ -18,6 +18,7 @@ export const createRating = async (rating: createRatingTypes) => {
       const project = await projectModel.findById(rating.projectId);
       if (!project) throw new Error("Project not found");
       project.rating.push(newRating);
+      project.likes++;
       await project.save();
     }
     return JSON.parse(JSON.stringify(newRating));
@@ -62,6 +63,7 @@ export const removeRating = async (ratingId: string) => {
     project.rating = project.rating.filter(
       (r: string) => r.toString() !== ratingId
     );
+    project.likes--;
     await project.save();
     return JSON.parse(JSON.stringify(rating));
   } catch (error) {
