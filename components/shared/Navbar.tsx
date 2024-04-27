@@ -15,6 +15,8 @@ import {
 import Navlinks from "./Navlinks";
 import { auth } from "@clerk/nextjs";
 import Search from "./Search";
+import { Input } from "postcss";
+import { IoSearch } from "react-icons/io5";
 
 const Navbar = () => {
   
@@ -64,22 +66,25 @@ const Navbar = () => {
             </SheetContent>
           </Sheet>
         </div>
-
-        <Image
+        <Link href={'/'}><Image
           src="/logo.svg"
           width={100}
           height={35}
           alt="Logo"
           className=" w-[80px] md:w-[100px] "
         />
+        </Link>
+        
         <div className=" hidden lg:block mx-5">
           <Navlinks loggedUserId={loggedUserId} />
+
         </div>
       </div>
 
       <div className="flex items-center justify-end gap-3">
         {/* // This is the search component */}
         <Search />
+    
         <SignedIn>
           <UserButton afterSignOutUrl="/" />
         </SignedIn>

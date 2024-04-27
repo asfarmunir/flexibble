@@ -46,7 +46,7 @@ export const DeleteConfirmation = ({ projectId }: { projectId: string }) => {
             onClick={() =>
               startTransition(async () => {
                 await removeProject({ projectId, path: pathname });
-                router.push("/");
+                router.push("/home");
                 toast.success("Project deleted!");
               })
             }

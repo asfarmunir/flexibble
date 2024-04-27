@@ -84,6 +84,7 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
     defaultValues: initialValues,
   });
 
+
   let uploadedImageUrl: string[] = [];
   if (files.length > 0) {
     files.forEach((file) => {
@@ -94,6 +95,8 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
 
   async function onSubmit(values: z.infer<typeof projectFormSchema>) {
     let uploadedImagesUrl: string[] = [];
+  toast.loading('uploading files...');
+
     if (files.length === 0 && type === "Add") {
       setImageLength(true);
       return;
@@ -118,6 +121,7 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
     };
 
     
+toast.dismiss();
 
     if (type === "Add") {
       try {

@@ -6,21 +6,23 @@ import { Button } from "@/components/ui/button";
 import { IoIosContact, IoMdMailOpen } from "react-icons/io";
 import { Separator } from "@/components/ui/separator";
 import { IoPerson } from "react-icons/io5";
+import { TopDevelopers } from '@/components/shared/TopDevelopers'
 
 import Link from "next/link";
 const page = async () => {
-  const users = await getAllUsers();
+  const users  = await getAllUsers();
 
   function getRandomNumber() {
     return Math.floor(Math.random() * 7) + 1;
   }
   return (
-    <div className="flex items-center justify-center flex-col wrapper">
-      <h3 className="h3-bold">Developers</h3>
-      <p className="p-regular-14 text-slate-600 text-center">
+    <div className="flex items-center justify-center  flex-col wrapper">
+      <TopDevelopers developers={users} />
+
+      <h3 className="h3-bold mt-20">Developers</h3>
+      <p className="p-regular-14 text-slate-600 text-center mb-4">
         Meet our talented developers behind these amazing products
       </p>
-
       <div className=" wrapper grid w-full grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:gap-10">
         {users.map((user: IUser) => {
           const randomNumber = getRandomNumber();

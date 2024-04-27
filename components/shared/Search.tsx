@@ -46,7 +46,7 @@ const Search = ({
 
   return (
     <>
-      {pathname === "/" ? (
+      {pathname === "/home" ? (
         <div className="hidden md:flex items-center bg-gray-50 rounded-full px-3">
           <IoSearch className="text-2xl text-slate-600" />
           <Input

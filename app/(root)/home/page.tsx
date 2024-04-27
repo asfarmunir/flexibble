@@ -14,6 +14,7 @@ import CategoryFilters from "@/components/shared/CategoryFilters";
 import { FaCaretRight } from "react-icons/fa";
 import RemoveQuery from "@/components/shared/RemoveQuery";
 import RatingFilter from "@/components/shared/RatingsFilter";
+import {Testimonials} from "@/components/shared/Testimonials";
 
 type SearchParamProps = {
   params: { id: string };
@@ -72,7 +73,7 @@ const page = async ({ searchParams }: SearchParamProps) => {
             </div>
           </div>
           <DropdownMenu>
-            <DropdownMenuTrigger className=" flex items-center justify-center gap-2 md:mr-12 font-light border rounded-3xl border-slate-200 px-3 text-sm py-2 text-slate-600  ">
+            <DropdownMenuTrigger className=" flex items-center justify-center gap-2  font-light border rounded-3xl border-slate-200 px-3 text-sm py-2 text-slate-600  ">
               <RiMenu5Fill />
               Filters
             </DropdownMenuTrigger>
@@ -84,7 +85,7 @@ const page = async ({ searchParams }: SearchParamProps) => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="mt-6 flex flex-col  items-center lg:items-start justify-center lg:justify-start w-full">
+        <div className="mt-6 flex flex-col  items-center lg:items-start justify-center lg:justify-start w-full pb-12 border-b">
           <Collection
             data={projects?.data}
             totalPages={projects?.totalPages}
@@ -93,6 +94,16 @@ const page = async ({ searchParams }: SearchParamProps) => {
             emptyTitle="No projects found"
             emptyStateSubtext="Try a different search"
           />
+        </div>
+
+        <div className=" w-full mt-4 hidden md:flex flex-col items-start justify-normal p-4">
+          <h2 className=" font-bold text-3xl text-black ">
+            Testimonials
+          </h2>
+          <p className=" font-thin text-slate-600 text-sm">
+            checkout what our developers are saying about us
+          </p>
+          <Testimonials />
         </div>
       </div>
     </div>

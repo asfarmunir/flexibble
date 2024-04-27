@@ -1,7 +1,6 @@
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 import { getProjectsCount } from "@/lib/database/actions/project.actions";
-
 export default async function RootLayout({
   children,
 }: Readonly<{

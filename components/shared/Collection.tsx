@@ -2,7 +2,11 @@ import { IProject } from "@/lib/database/models/project.model";
 import React from "react";
 import Card from "./Card";
 import Pagination from "./Pagination";
+import Link from "next/link";
+
 import Image from "next/image";
+import { CardBody,CardContainer, CardItem } from "./3dCard";
+import { FaComments, FaHeart } from "react-icons/fa6";
 type CollectionProps = {
   data: IProject[];
   emptyTitle?: string;
@@ -27,7 +31,7 @@ const Collection = ({
     <>
       {data.length > 0 ? (
         <div className="flex flex-col justify-center items-center gap-10">
-          {/* <ul className=" w-full flex items-center justify-start flex-grow  gap-6 gap-y-7 flex-wrap"> */}
+            
           <ul className=" grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:gap-10">
             {data.map((project) => {
               const hasOrderLink = collectionType === "projects_Organized";
@@ -37,9 +41,8 @@ const Collection = ({
                 <li key={project._id} className="flex justify-center">
                   <Card
                     project={project}
-                    hasOrderLink={hasOrderLink}
-                    hidePrice={hidePrice}
                   />
+               
                 </li>
               );
             })}

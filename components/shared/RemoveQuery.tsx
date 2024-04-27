@@ -18,7 +18,7 @@ const RemoveQuery = ({ searchText }: { searchText: string }) => {
         //   keysToRemove: ["query"],
         // });
         //       console.log('hehe');
-            router.push('/'+'?query=', { scroll: false });
+            router.push('/home'+'?query=', { scroll: false });
           
       }}
       >
