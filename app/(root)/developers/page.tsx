@@ -44,6 +44,7 @@ const page = async () => {
                   src={user.photo}
                   width={80}
                   height={80}
+                  priority
                   alt={"profile picture of " + user.username}
                   className="rounded-full -mt-11 "
                 />

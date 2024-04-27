@@ -39,7 +39,7 @@ export interface IProject extends Document {
   ];
   createdAt: Date;
   updatedAt: Date;
-  likes: string,
+  likes: number,
 }
 const projectSchema = new Schema(
   {
@@ -84,7 +84,7 @@ const projectSchema = new Schema(
       },
     ],
     likes: {
-      type: String,
+      type: Number,
       default:0,
     },
     createdAt: {

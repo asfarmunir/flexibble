@@ -32,6 +32,7 @@ type getAllProjectsTypes = {
   limit: number;
   page: number;
   category: string;
+  ratings: string;
 };
 
 export async function getAllProjects({
@@ -39,6 +40,7 @@ export async function getAllProjects({
   limit = 9,
   page,
   category,
+  ratings
 }: getAllProjectsTypes): Promise<{ data: any[]; totalPages: number }> {
   try {
     await connectToDatabase();
@@ -48,18 +50,25 @@ export async function getAllProjects({
     const skipAmount = (Number(page) - 1) * limit;
 
     const conditions = {
-      $and: [titleCondition, category ? { category: { $eq: category } } : {}],
+      $and: [titleCondition, category ? { category: { $eq: category } } : {},],
+      
     };
 
     // Condition to filter projects with non-empty ratings arrays
     // const ratingLengthCondition = { rating: { $exists: true, $not: { $size: 0 } } };
+let sortOptions = {}; // Default empty sort options
 
+    if (ratings === "true") {
+      // If ratings is true, sort by likes in descending order
+      sortOptions = { likes: -1 };
+    }
+   
     const projects = await Project.find({ ...conditions })
-      // .sort({ "rating": 1 }) // Sort by the length of the ratings array in descending order
       .skip(skipAmount)
       .limit(limit)
       .populate("author")
-      // .sort({"__v":-1});
+      .sort(sortOptions) // Sort based on sortOptions
+
 
     const projectCount = await Project.countDocuments({ ...titleCondition });
 
