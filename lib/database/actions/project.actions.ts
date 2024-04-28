@@ -5,6 +5,8 @@ import { revalidatePath } from "next/cache";
 import User from "../models/user.model";
 import { createProjectTypes, updateProjectTypes } from "@/types";
 import { connectToDatabase } from "../index";
+import { Comment } from "../models/comment.model";
+import ratingModel from "../models/rating.model";
 
 export const createProject = async ({
   authorId,
@@ -124,7 +126,12 @@ export const removeProject = async ({
   try {
     await connectToDatabase();
     const project = await Project.findByIdAndDelete(projectId);
-    if (project) revalidatePath(path);
+    if (project) 
+    {
+      await Comment.deleteMany({ postId: projectId });
+      await ratingModel.deleteMany({ projectId: projectId });
+      revalidatePath(path);
+      }
   } catch (error) {
     console.log(error);
     return error;

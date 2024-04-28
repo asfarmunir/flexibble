@@ -95,7 +95,7 @@ const EventForm = ({ type, authorId, project, projectId }: EventFormProps) => {
 
   async function onSubmit(values: z.infer<typeof projectFormSchema>) {
     let uploadedImagesUrl: string[] = [];
-  toast.loading('uploading files...');
+  toast.loading('uploading images...');
 
     if (files.length === 0 && type === "Add") {
       setImageLength(true);

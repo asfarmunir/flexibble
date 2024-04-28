@@ -34,7 +34,7 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
   
   const comments = await getCommentsofProject(project._id);
   if (!project) {
-    redirect("/");
+    redirect("/home");
   }
 
   const currentUser = await getUserById(userId);

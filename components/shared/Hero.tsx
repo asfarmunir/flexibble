@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { TypeWriter } from '@/components/shared/TypeWriter'
 import { motion } from "framer-motion";
 import { AuroraBackground } from './AuroraBackground';
+import { ImRocket } from "react-icons/im";
+
 const page = () => {
   return (
     
@@ -38,8 +40,9 @@ const page = () => {
         <div className="font-extralight text-base text-center md:text-3xl dark:text-neutral-200 py-4">
                   Join the Revolution of Creative Expression!
               </div>
-        <Link href={'/home'} className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-12 py-2">
-          Lets dive in
+        <Link href={'/home'} className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-12 py-2 flex items-center justify-center gap-3 ">
+          Lets Dive In <ImRocket className=' text-lg text-white' />
+
         </Link>
           </motion.div>
           

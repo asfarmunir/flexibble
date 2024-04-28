@@ -3,6 +3,8 @@ import React from "react";
 import { BackgroundGradient } from "@/components/shared/BackgroundGradient";
 import { IUser } from "@/lib/database/models/user.model";
 import { AnimatedTooltip } from "./AnimatedTooltip";
+import Confetti from 'react-confetti'
+
 
 export function TopDevelopers({ developers }: { developers: IUser[] }) {
     const data = developers.map((developer) => {
@@ -14,9 +16,17 @@ export function TopDevelopers({ developers }: { developers: IUser[] }) {
         };
     });
   return (
-    <div className="mt-4 w-full">
-          <BackgroundGradient className="rounded-[22px] w-full flex flex-col md:flex-row items-center justify-evenly  p-4 sm:p-10 bg-white dark:bg-zinc-900">
-              <div>
+    <div className="mt-4 w-full ">
+      <BackgroundGradient className="rounded-[22px] overflow-hidden w-full flex flex-col md:flex-row items-center justify-evenly gap-6 md:gap-0  p-4 sm:p-10 bg-white dark:bg-zinc-900">
+        <Confetti
+          className="w-full"
+          height={250}
+          opacity={0.18}
+          numberOfPieces={100}
+          friction={0.94}
+          recycle={false}
+    />
+              <div className=" z-50">
                      <p className="md:text-4xl md:max-w-xl font-bold sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
          kudos to our top developers of the month.
         </p>

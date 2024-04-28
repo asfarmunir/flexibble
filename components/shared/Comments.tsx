@@ -26,6 +26,7 @@ import {
 import { useTransition } from "react";
 import { toast } from "react-hot-toast";
 import { IUser } from "@/lib/database/models/user.model";
+import { useRouter } from "next/navigation";
 
 const Comments = ({
   project,
@@ -35,7 +36,10 @@ const Comments = ({
   project: IProject;
   currentUser: IUser;
   preRenderedComments: IComment[];
-}) => {
+  }) => {
+  
+  const router = useRouter();
+  
   let [isPending, startTransition] = useTransition();
   const [comment, setComment] = useState("");
   const [replyValues, setReplyValues] = useState<{ [key: string]: string }>({});
@@ -49,7 +53,7 @@ const Comments = ({
       comments && setPostComments(comments);
     };
     getCommentsOfPost();
-  }, [comment, isPending, replyValues]);
+  }, [comment, isPending, replyValues, project._id]);
 
   const addComment = async (
     e: React.FormEvent<HTMLFormElement>,
@@ -76,6 +80,7 @@ const Comments = ({
         error: "Failed to add comment",
       });
       setComment("");
+      router.refresh();
     }
     if (type === "reply") {
       const replyValue = replyValues[commentId];
@@ -107,6 +112,7 @@ const Comments = ({
         ...prevState,
         [commentId]: "",
       }));
+      router.refresh();
     }
   };
 
@@ -209,9 +215,8 @@ const Comments = ({
                                       success: "Deleted!",
                                       error: "Failed to delete",
                                     });
+                                    router.refresh();
 
-                                    // await deleteComment(comment._id);
-                                    // toast.success("deleted!");
                                   })
                                 }
                               >
@@ -285,7 +290,7 @@ const Comments = ({
                     return (
                       <div
                         key={index}
-                        className="flex items-start py-4 md:wrapper justify-start gap-4"
+                        className="flex border-b  items-start py-4 md:wrapper justify-start gap-4"
                       >
                         <Image
                           src={reply.criticId.photo}
@@ -336,6 +341,7 @@ const Comments = ({
                                                   error: "Failed to delete",
                                                 }
                                               );
+                                              router.refresh();
                                             })
                                           }
                                         >

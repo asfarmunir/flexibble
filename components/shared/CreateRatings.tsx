@@ -16,6 +16,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useRouter } from "next/navigation";
 
 const CreateRatings = ({
   projectId,
@@ -25,7 +26,10 @@ const CreateRatings = ({
   projectId: string;
   criticId: string;
   projectAuthorId: string;
-}) => {
+  }) => {
+  
+  const router = useRouter();
+  
   const [ratingOfPost, setRatingOfPost] = useState<IRating[]>([]);
   const [isRated, setIsRated] = useState<IRating[]>([]);
 
@@ -61,6 +65,7 @@ const CreateRatings = ({
         },
       }
     );
+    router.refresh();
   };
 
   return (
@@ -108,6 +113,8 @@ const CreateRatings = ({
                         }
                       );
                       setIsRated([]);
+                      router.refresh();
+
                     }}
                   />
                 </TooltipTrigger>
