@@ -105,7 +105,13 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
             <p className="text-xl font-thin text-slate-600 capitalize mb-3 mt-3">Presenting {"  "}{"  "}
               <span className="font-bold ml-1 text-3xl text-black">{ project.title}</span>
             </p>
+            <pre
+              className="text-slate-600 font-thin text-justify font-serif"
+              style={{ whiteSpace: "pre-wrap" }}
+            >
+
             {project.description}
+            </pre>
           </div>
 
           <div className="flex flex-col items-center gap-4 p-4 py-8 justify-center md:w-[40%] bg-slate-50">

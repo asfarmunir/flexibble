@@ -10,7 +10,12 @@ export default async function RootLayout({
   const projectCount = await getProjectsCount();
   return (
     <div className=" h-screen flex flex-col ">
+      <div className="
+      sticky top-0 z-50  bg-white   backdrop-filter backdrop-blur-sm  bg-opacity-80
+      ">
+
       <Navbar />
+      </div>
       <main className="flex-1">{children}</main>
       <Footer count={projectCount} />
     </div>

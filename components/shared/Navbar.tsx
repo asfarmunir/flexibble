@@ -23,7 +23,7 @@ const Navbar = () => {
   const { sessionClaims } = auth();
   const loggedUserId: string | undefined = sessionClaims?.userId as string;
   return (
-    <nav className="navbar flex  items-center justify-between gap-8">
+    <div className="navbar flex  items-center justify-between gap-8">
       <div className="flex items-center justify-center gap-3">
         <div className="block  lg:hidden ">
           <Sheet>
@@ -86,7 +86,7 @@ const Navbar = () => {
         <Search />
     
         <SignedIn>
-          <UserButton afterSignOutUrl="/" />
+          <UserButton afterSignOutUrl="/home" />
         </SignedIn>
         <SignedOut>
           <Button
@@ -98,7 +98,7 @@ const Navbar = () => {
           </Button>
         </SignedOut>
       </div>
-    </nav>
+    </div>
   );
 };
 

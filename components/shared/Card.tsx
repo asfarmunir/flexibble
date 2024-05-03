@@ -16,7 +16,7 @@ type CardProps = {
 const Card = ({ project }: CardProps) => {
   return (
        <CardContainer className="inter-var">
-      <CardBody className="bg-white relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] max-w-[370px] sm:w-[30rem] h-auto rounded-xl  px-6 pt-4 border  ">
+      <CardBody className="bg-white relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] max-w-[370px] sm:w-[30rem] h-auto rounded-xl  px-6 pt-4 border shadow-md  ">
         <CardItem
           translateZ="50"
           className="text-lg flex items-center justify-between w-full font-bold text-neutral-600 dark:text-white"
@@ -34,7 +34,7 @@ const Card = ({ project }: CardProps) => {
             width={350}
             height={350}
             priority
-            className="h-48 w-full object-contain object-center rounded-md group-hover/card:shadow-xl"
+            className="h-48 w-full object-cover object-center rounded-md group-hover/card:shadow-xl"
           />
         </Link>
         </CardItem>

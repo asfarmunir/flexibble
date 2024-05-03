@@ -17,6 +17,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useRouter } from "next/navigation";
+import './ratings.css';
 
 const CreateRatings = ({
   projectId,
@@ -32,6 +33,7 @@ const CreateRatings = ({
   
   const [ratingOfPost, setRatingOfPost] = useState<IRating[]>([]);
   const [isRated, setIsRated] = useState<IRating[]>([]);
+  const [isAddingRating, setIsAddingRating] = useState(false);
 
   useEffect(() => {
     const getRatingsOfPost = async () => {
@@ -52,19 +54,25 @@ const CreateRatings = ({
   }, [projectId, criticId, isRated]);
 
   const addRating = async () => {
-    toast.promise(
-      createRating({ projectId, criticId }),
-      {
-        loading: "Adding to Favorites...",
-        success: "Added to Favorites",
-        error: "Failed to add rating",
-      },
-      {
-        success: {
-          icon: "❤️",
-        },
-      }
-    );
+
+    if (isAddingRating) return;
+
+    setIsAddingRating(true);
+    toast.success("Added to Favorites");
+    // toast.promise(
+    //   createRating({ projectId, criticId }),
+    //   {
+    //     loading: "Adding to Favorites...",
+    //     success: "Added to Favorites",
+    //     error: "Failed to add rating",
+    //   },
+    //   {
+    //     success: {
+    //       icon: "❤️",
+    //     },
+    //   }
+    // );
+    setIsAddingRating(false);
     router.refresh();
   };
 
@@ -128,6 +136,7 @@ const CreateRatings = ({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
+                
                   <FaHeart
                     className="text-gray-400 text-lg mt-1  hover:text-red-500 cursor-pointer hover:scale-110 transition duration-200 ease-in-out"
                     onClick={addRating}

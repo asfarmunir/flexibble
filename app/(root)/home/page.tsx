@@ -15,6 +15,7 @@ import { FaCaretRight } from "react-icons/fa";
 import RemoveQuery from "@/components/shared/RemoveQuery";
 import RatingFilter from "@/components/shared/RatingsFilter";
 import {Testimonials} from "@/components/shared/Testimonials";
+import LiveNumbers from "@/components/shared/LiveNumbers";
 
 type SearchParamProps = {
   params: { id: string };
@@ -37,6 +38,24 @@ const page = async ({ searchParams }: SearchParamProps) => {
 
   return (
     <div className="w-full wrapper flex flex-col min-h-svh">
+      <div className=" w-full flex items-start justify-evenly bg-gradient-to-br rounded-xl my-3 mb-12 from-primary to-blue-900 shadow-sm py-6">
+        <div className="flex flex-col items-center justify-center w-full p-4 md:p-8">
+          <h1 className="text-4xl md:text-5xl text-white font-bold mb-3 text-center">
+            Welcome to Flexibble
+          </h1>
+          <p className="text-white text-center text-base md:text-lg font-light">
+           Flexibble is a platform that  connects companies with projects and developers with opportunities.
+          </p>
+          <LiveNumbers />
+        </div>
+        <div className="flex items-center justify-center w-full p-4 md:p-8">
+          <img
+            src="/logo.svg"
+            alt="hero"
+            className="w-full h-full md:w-3/4 md:h-3/4"
+          />
+        </div>
+      </div>
       <div className=" flex gap-2 items-center mb-3  ">
         <FaAngleLeft className="text-primary-500 text-sm" />
         <CategoryFilters />
