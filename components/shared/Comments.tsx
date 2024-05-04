@@ -117,11 +117,12 @@ const Comments = ({
   };
 
   return (
-    <div className="flex flex-col w-full wrapper">
+    <div className="flex flex-col w-full wrapper"      
+    >
       <h2 className="text-2xl font-bold text-gray-800">Comments</h2>
       {/* create new comment */}
       {currentUser && (
-        <div className="flex items-center wrapper justify-start gap-4 shadow-sm rounded-lg">
+        <div className="flex bg-white items-center wrapper justify-start gap-4 shadow-sm rounded-lg">
           <Image
             src={currentUser.photo}
             alt="user"
@@ -169,7 +170,7 @@ const Comments = ({
           return (
             <div
               key={comment._id}
-              className="flex items-start wrapper justify-start gap-4"
+              className="flex bg-white shadow-sm backdrop-blur-md  items-start wrapper justify-start gap-4"
             >
               <Image
                 src={comment.criticId.photo}

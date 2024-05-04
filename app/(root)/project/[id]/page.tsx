@@ -100,13 +100,13 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
           </div>
         </div>
         <ImgCarousel project={project} />
-        <div className="flex flex-col-reverse md:flex-row items-start justify-between gap-4 w-full">
-          <div className="md:w-[60%] wrapper  bg-slate-50 py-5">
+        <div className="flex flex-col-reverse  md:flex-row items-start justify-between gap-4 w-full">
+          <div className="md:w-[60%] wrapper shadow-sm bg-slate-50 py-5">
             <p className="text-xl font-thin text-slate-600 capitalize mb-3 mt-3">Presenting {"  "}{"  "}
               <span className="font-bold ml-1 text-3xl text-black">{ project.title}</span>
             </p>
             <pre
-              className="text-slate-600 font-thin text-justify font-serif"
+              className="text-slate-600 font-thin text-justify font-serif md:px-4 py-3"
               style={{ whiteSpace: "pre-wrap" }}
             >
 
@@ -114,7 +114,7 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
             </pre>
           </div>
 
-          <div className="flex flex-col items-center gap-4 p-4 py-8 justify-center md:w-[40%] bg-slate-50">
+          <div className="flex flex-col shadow-sm items-center gap-4 p-4 py-8 justify-center md:w-[40%] bg-slate-50">
             <div className="flex flex-col  justify-center md:justify-start w-full  items-center gap-2">
               <p className="flex text-xl font-bold text-nowrap gap-1 items-center">
                 <FaGithub className=" text-2xl font-bold" /> Github

@@ -29,11 +29,11 @@ useEffect(() => {
   return controls.stop
 }, [])
   return (
-    <div className='flex items-center justify-evenly text-cyan-100 mt-5 gap-8'>
-          <div className=' flex flex-col items-center justify-center gap-2'>
-              <h3 className='text-xl font-bold'> Our Developers </h3>
+    <div className='flex items-center justify-evenly mt-5 gap-8 md:gap-12'>
+          <div className=' flex flex-col-reverse items-center justify-center text-center gap-2 text-blue-100'>
+              <h3 className='text-sm font-thin'> Our Developers </h3>
               
-              <div className='flex items-center justify-center gap-0.5'>
+              <div className='flex items-center justify-center gap-0.5 text-white'>
                     <motion.div className=' font-semibold text-5xl'>
                 {roundedDevelopers}
                   </motion.div>
@@ -41,10 +41,10 @@ useEffect(() => {
               </div>
             
         </div>
-          <div className=' flex flex-col items-center justify-center gap-2'>
-              <h3 className='text-xl font-bold'> Project Showcased </h3>
+          <div className=' flex flex-col-reverse items-center justify-center text-center gap-2 text-blue-100'>
+              <h3 className='text-sm font-light'> Projects Showcased</h3>
               
-              <div className='flex items-center justify-center gap-0.5'>
+              <div className='flex items-center justify-center gap-0.5 text-white'>
                     <motion.div className=' font-semibold text-5xl'>
                 {roundedProjects}
                   </motion.div>

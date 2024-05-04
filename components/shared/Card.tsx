@@ -34,7 +34,7 @@ const Card = ({ project }: CardProps) => {
             width={350}
             height={350}
             priority
-            className="h-48 w-full object-cover object-center rounded-md group-hover/card:shadow-xl"
+            className=" h-48 w-full object-cover object-center rounded-md group-hover/card:shadow-xl"
           />
         </Link>
         </CardItem>
