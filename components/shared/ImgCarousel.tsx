@@ -11,7 +11,7 @@ import Image from "next/image";
 import { IProject } from "@/lib/database/models/project.model";
 const ImgCarousel = ({ project }: { project: IProject }) => {
   return (
-    <div className=" max-w-xl lg:max-w-2xl max-h-[400px] mx-10">
+    <div className=" rounded-md max-w-xl lg:max-w-2xl max-h-[400px] mx-10">
       <Carousel
         plugins={[
           Autoplay({

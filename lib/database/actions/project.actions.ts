@@ -163,3 +163,39 @@ export const getProjectsCount = async () => {
     
   }
 }
+export const GetTopDevelopers = async () => {
+  try {
+    await connectToDatabase();
+    const projects = await Project.aggregate([
+      {
+        $group: {
+          _id: "$author",
+          totalProjects: { $sum: 1 },
+        },
+      },
+      {
+        $lookup: {
+          from: "users", // Name of the users collection
+          localField: "_id",
+          foreignField: "_id",
+          as: "authorDetails",
+        },
+      },
+      {
+        $sort: { totalProjects: -1 },
+      },
+      {
+        $limit: 5,
+      },
+    ]).exec();
+
+    if (!projects) {
+      throw new Error("No projects found");
+    }
+
+    return JSON.parse(JSON.stringify(projects));
+  } catch (error) {
+    console.log("Error in GetTopDevelopers:", error);
+    return error;
+  }
+};

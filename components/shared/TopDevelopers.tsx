@@ -6,13 +6,13 @@ import { AnimatedTooltip } from "./AnimatedTooltip";
 import Confetti from 'react-confetti'
 
 
-export function TopDevelopers({ developers }: { developers: IUser[] }) {
+export function TopDevelopers({ developers }: { developers: any[] }) {
     const data = developers.map((developer) => {
         return {
-            id: developer._id as unknown as number,
-            name: developer.username,
-            position: developer.position,
-            image: developer.photo,
+            id: developer.authorDetails[0]._id as unknown as number,
+            name: developer.authorDetails[0].username,
+            position: developer.authorDetails[0].position,
+            image: developer.authorDetails[0].photo,
         };
     });
   return (

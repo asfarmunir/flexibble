@@ -99,6 +99,7 @@ const page = async ({ params: { id } }: { params: { id: string } }) => {
             )}
           </div>
         </div>
+
         <ImgCarousel project={project} />
         <div className="flex flex-col-reverse  md:flex-row items-start justify-between gap-4 w-full">
           <div className="md:w-[60%] wrapper shadow-sm bg-slate-50 py-5">

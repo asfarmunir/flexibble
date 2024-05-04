@@ -17,6 +17,7 @@ import RatingFilter from "@/components/shared/RatingsFilter";
 import {Testimonials} from "@/components/shared/Testimonials";
 import LiveNumbers from "@/components/shared/LiveNumbers";
 import Image from "next/image";
+import AnimatedHero from "@/components/shared/AnimatedHero";
 
 type SearchParamProps = {
   params: { id: string };
@@ -39,7 +40,7 @@ const page = async ({ searchParams }: SearchParamProps) => {
 
   return (
     <div className="w-full wrapper flex flex-col min-h-svh">
-      <div className=" w-full flex items-center md:items-start justify-evenly bg-gradient-to-tl rounded-xl my-3 mb-12 from-primary/100 to-indigo-950 shadow-sm py-6">
+      <div className=" w-full flex flex-col md:flex-row items-center md:items-start justify-evenly bg-gradient-to-tl rounded-xl my-3 mb-12 from-primary/100 to-indigo-950 shadow-sm py-6">
         <div className="flex flex-col items-center justify-center w-full p-4 md:p-8">
           <h1 className="text-4xl md:text-5xl text-white font-bold mb-3 text-center">
             Welcome to Flexibble
@@ -49,9 +50,7 @@ const page = async ({ searchParams }: SearchParamProps) => {
           </p>
           <LiveNumbers />
         </div>
-        <div className="md:flex hidden items-center justify-center w-full">
-         <Image alt="hero" src="/images/hero.png" width={300} height={300} />
-        </div>
+        <AnimatedHero />
       </div>
       <div className=" flex gap-2 items-center mb-3  ">
         <FaAngleLeft className="text-primary-500 text-sm" />

@@ -9,15 +9,18 @@ import { IoPerson } from "react-icons/io5";
 import { TopDevelopers } from '@/components/shared/TopDevelopers'
 
 import Link from "next/link";
+import { GetTopDevelopers } from "@/lib/database/actions/project.actions";
 const page = async () => {
-  const users  = await getAllUsers();
+  const users = await getAllUsers();
+  const topDevelopers = await GetTopDevelopers();
+  
 
   function getRandomNumber() {
     return Math.floor(Math.random() * 7) + 1;
   }
   return (
     <div className="flex items-center justify-center  flex-col wrapper">
-      <TopDevelopers developers={users} />
+      <TopDevelopers developers={topDevelopers} />
 
       <h3 className="h3-bold mt-20">Developers</h3>
       <p className="p-regular-14 text-slate-600 text-center mb-4">
