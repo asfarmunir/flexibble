@@ -33,7 +33,7 @@ const CreateRatings = ({
   
   const [ratingOfPost, setRatingOfPost] = useState<IRating[]>([]);
   const [isRated, setIsRated] = useState<IRating[]>([]);
-  const [isAddingRating, setIsAddingRating] = useState(false);
+  const [isRatingAdded, setIsRatingAdded] = useState(false);
 
   useEffect(() => {
     const getRatingsOfPost = async () => {
@@ -55,26 +55,25 @@ const CreateRatings = ({
 
   const addRating = async () => {
 
-    if (isAddingRating) return;
-
-    setIsAddingRating(true);
-    toast.success("Added to Favorites");
-    // toast.promise(
-    //   createRating({ projectId, criticId }),
-    //   {
-    //     loading: "Adding to Favorites...",
-    //     success: "Added to Favorites",
-    //     error: "Failed to add rating",
-    //   },
-    //   {
-    //     success: {
-    //       icon: "❤️",
-    //     },
-    //   }
-    // );
-    setIsAddingRating(false);
-    router.refresh();
+    if (isRatingAdded) return;
+    setIsRatingAdded(true);
+    toast.promise(
+      createRating({ projectId, criticId }),
+      {
+        loading: "Adding to Favorites...",
+        success: "Added to Favorites",
+        error: "Failed to add rating",
+      },
+      {
+        success: {
+          icon: "❤️",
+        },
+      }
+    );
+    router.refresh(); 
   };
+
+  
 
   return (
     <div className="flex items-center justify-start gap-1">
@@ -100,53 +99,49 @@ const CreateRatings = ({
             //     setIsRated([]);
             //   }}
             // />
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  {" "}
+            <button onClick={
+              async () => {
+                      // setIsRatingAdded(false);
+                      // toast.promise(
+                      //   removeRating(isRated[0]._id),
+                      //   {
+                      //     loading: "Removing Favorite...",
+                      //     success: "Removed from Favorites",
+                      //     error: "Failed to remove rating",
+                      //   },
+                      //   {
+                      //     success: {
+                      //       icon: "❤️",
+                      //     },
+                      //   }
+                      // );
+                      // setIsRated([]);
+                // router.refresh();]
+                toast.loading("Removing Favorite...");
+                setIsRatingAdded(false);
+                await removeRating(isRated[0]._id);
+                toast.dismiss();
+                toast.success("Removed from Favorites");
+                setIsRated([]);
+                router.refresh();
+
+                    }
+            }
+            
+            >
                   <FaHeart
                     className="text-red-500 text-lg mt-1 cursor-pointer"
-                    onClick={() => {
-                      toast.promise(
-                        removeRating(isRated[0]._id),
-                        {
-                          loading: "Removing Favorite...",
-                          success: "Removed from Favorites",
-                          error: "Failed to remove rating",
-                        },
-                        {
-                          success: {
-                            icon: "❤️",
-                          },
-                        }
-                      );
-                      setIsRated([]);
-                      router.refresh();
-
-                    }}
-                  />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Remove from favourites</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+              />
+            </button>
           )}
           {isRated.length === 0 && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                
+            <button onClick={addRating}
+              disabled={isRatingAdded}
+            >
                   <FaHeart
                     className="text-gray-400 text-lg mt-1  hover:text-red-500 cursor-pointer hover:scale-110 transition duration-200 ease-in-out"
-                    onClick={addRating}
                   />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Add to favourites</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+                 </button>
           )}
         </div>
       ) : (
